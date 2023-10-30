@@ -14,9 +14,17 @@
             <label>Contraseña</label>
             <input type="password" name="password" >
             <input type="submit" name="submit" value="Enviar">
+            
             <span style="color: red;"><?php if ($errors != "")echo $errors; ?></span>
             <p>No estàs registrat? <a href="../model/register.php">Registra't aquí</a>.</p>
+            <p><a href="../vista/recuperar.vista.php">Has oblidat la teva contrasenya?</a>.</p>
             <p><a href="../index.php">Tornar</a>.</p>
+
+            
+        </form>
+        <form>
+            <button class="loginBtn loginBtn--facebook">Inicia sessió amb Facebook</button>
+            <button class="loginBtn loginBtn--google">Inicia sessió amb Google</button>
         </form>
     </div>
 </body>
