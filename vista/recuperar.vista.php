@@ -6,13 +6,16 @@
     <script defer src="../controlador/article.js"></script>
 </head>
 <body>
-    <ul class="ull">
-    <li class="lii"><a class="lia" href="../model/closesess.php">Tencar sessió</a></li>
-    </ul>
+
+<ul class="ull">
+<li class="liii"><a class="lia">Anònim</a></li>
+</ul>
     <h1>Modificar</h1>
     <form action="../model/recuperar.php" method="POST" class="contenidor">
-        <label for="titulo">Títol:</label>
-        <input type="text" id="titulo2" name="titulo2"><br><br>
+        <label for="titulo">Correu: </label>
+        <input type="text" id="correo" name="correo"><br><br>
+        <input type="submit" name="submit" value="Enviar">
+        <input type="button" value="Tornar" onclick="window.location.href='../model/login.php'">
     </form>
     
 
