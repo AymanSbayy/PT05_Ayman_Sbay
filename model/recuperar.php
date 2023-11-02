@@ -1,8 +1,11 @@
 <?php 
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';             
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 
 if (!isset($_SESSION['dni'])) {
     if (isset($_POST['correo'])) {
@@ -10,14 +13,15 @@ if (!isset($_SESSION['dni'])) {
         $errors = "";
         
         if (emailExists($_POST['correo'])) {
-            $errors .= "El correu electrònic introduït ja existeix. <br>";
-        }
+            if ($errors == "") {
+                echo $errors;
+                $correo = $_POST['correo'];
+                $token = temporaryTokenPass();
+                insertTokenintoBD($correo,$token);
+                sendMail($correo, $token);  
+            }
     }
-        if ($errors == "") {
-            $correo = $_POST['correo'];
-            $token = temporaryTokenPass();
-            insertTokenintoBD($correo,$token);
-            sendMail($correo, $token);    
+          
     }
 
 
@@ -46,13 +50,13 @@ function sendMail($email, $token)
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'ayman.zekkari@gmail.com';               //SMTP username
-        $mail->Password   = 'cdjn tghv xqjs oqf';                             //SMTP password
+        $mail->Username   = 'aymanprovass@gmail.com';               //SMTP username
+        $mail->Password   = 'zcfv iijr zcyt uktw';                             //SMTP password
         $mail->SMTPSecure = 'ssl';                                  //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('ayman.zekkari@gmail.com', 'Ayman Sbay');
+        $mail->setFrom('aymanprovass@gmail.com', 'Ayman Sbay');
         $mail->addAddress($email);                                   //Add a recipient
 
         //Content 
@@ -62,9 +66,9 @@ function sendMail($email, $token)
         $text = "Hola,<br><br>";
         $text .= "Hemos recibido una solicitud para restablecer la contraseña de tu cuenta. Si no has solicitado este cambio, puedes ignorar este correo electrónico.<br><br>";
         $text .= "Para restablecer tu contraseña, haz clic en el siguiente enlace:<br>";
-        $text .= "<a href='http://localhost/Backend/UF1/PT06_Ayman_Sbay/vista/nuevaContrasenya.vista.php?token=" . $token . "'>Restablecer contraseña</a><br><br>";
+        $text .= "<a href='localhost/Backend/UF1/PT06_Ayman_Sbay/model/novacontra.php?token=" . $token . "'>Restablecer contraseña</a><br><br>";
         $text .= "Si el enlace no funciona, copia y pega la siguiente dirección en tu navegador:<br>";
-        $text .= "http://localhost/Backend/UF1/PT06_Ayman_Sbay/vista/nuevaContrasenya.vista.php?token=" . $token . "<br><br>";
+        $text .= "http://localhost/Backend/UF1/PT06_Ayman_Sbay/model/novacontra.php?token=" . $token . "<br><br>";
         $text .= "Gracias,<br>";
         $text .= "El equipo de Ayman Sbay";
 
@@ -83,5 +87,6 @@ function temporaryTokenPass()
     return $token;
 }
 
-include '../vista/recuperar.vista.php'
+include '../vista/recuperar.vista.php';
+
 ?>

@@ -38,4 +38,23 @@ function emailExists($email) {
     }
 }
 
+/**
+ * Modifica la contraseña de un usuario existente en la base de datos.
+ *
+ * @param string $id El DNI del usuario a modificar.
+ * @param string $password La nueva contraseña del usuario.
+ * @return bool Verdadero si la modificación fue exitosa, falso en caso contrario.
+ */
+function modifyPasswordByToken($token, $password) {
+    include_once '../database/pdo.php';
+    $conn = connexion();
+    $sql = "UPDATE usuaris SET Contraseña = '$password' WHERE remember_me_token = '$token'";
+    $result = $conn->exec($sql);
+    if ($result !== false) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 ?>
