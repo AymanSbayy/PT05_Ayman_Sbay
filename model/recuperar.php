@@ -19,7 +19,12 @@ if (!isset($_SESSION['dni'])) {
                 $token = temporaryTokenPass();
                 insertTokenintoBD($correo,$token);
                 sendMail($correo, $token);  
+                echo "<script type='text/javascript'>alert('S\'ha enviat un correu electrònic per restablir la contrasenya');</script>";
             }
+            
+    }
+    else {
+        $errors .= "El correu electrònic introduït no existeix. <br>";
     }
           
     }

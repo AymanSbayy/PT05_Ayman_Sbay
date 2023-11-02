@@ -15,7 +15,8 @@
         <label for="titulo">Correu: </label>
         <input type="text" id="correo" name="correo"><br><br>
         <input type="submit" name="submit" value="Enviar">
-        <input type="button" value="Tornar" onclick="window.location.href='../model/login.php'">
+        <input type="button" value="Tornar" onclick="window.location.href='../model/login.php'"><br><br>
+        <span style="color:red"><?php echo $errors ?></span>
     </form>
     
 
