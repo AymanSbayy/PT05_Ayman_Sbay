@@ -41,4 +41,5 @@ if (empty($errors)) {
 
 include '../vista/novacontra.vista.php';
 
+
 ?>

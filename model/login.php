@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Archivo: /c:/xampp/htdocs/Backend/UF1/PT05_Ayman_Sbay/model/login.php
@@ -8,17 +8,38 @@
 
 session_start();
 $errors = "";
-if (!isset($_SESSION['dni'])) {
-    if (isset($_POST['dni']) && isset($_POST['password'])) {
-        $dni = $_POST['dni'];
-        $password = $_POST['password'];
 
-        $errors .=login($dni, $password);
-    }
+if (!isset($_SESSION['captcha'])) {
+    $_SESSION['captcha'] = 0;
 } else {
-    header('location: ../index.php');
+    $_SESSION['captcha'] = $_SESSION['captcha'] + 1;
 }
-include '../vista/login.vista.php';
+
+if (!($_SESSION['captcha'] > 3)) {
+    if (!isset($_SESSION['dni'])) {
+        if (isset($_POST['dni']) && isset($_POST['password'])) {
+            $dni = $_POST['dni'];
+            $password = $_POST['password'];
+
+            $errors .= login($dni, $password);
+        }
+    } else {
+        header('location: ../index.php');
+    }
+    include '../vista/login.vista.php';
+} else {
+    if (!isset($_SESSION['dni'])) {
+        if (isset($_POST['dni']) && isset($_POST['password'])) {
+            $dni = $_POST['dni'];
+            $password = $_POST['password'];
+
+            $errors .= login2($dni, $password);
+        }
+    } else {
+        header('location: ../index.php');
+    }
+    include '../vista/login.vista2.php';
+}
 
 
 /**
@@ -58,4 +79,44 @@ function login($dni, $password)
     return $errors;
 }
 
-?>
+
+function login2($dni, $password)
+{
+    require_once "../database/pdo.php";
+    $errors = "";
+    if (isset($_POST['g-recaptcha-response'])) {
+        $captcha = $_POST['g-recaptcha-response'];
+        $secret = '6Lcgj-0oAAAAAP4_xNkbcRPW5w6Gifouj3lV0x_6';
+        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$captcha");
+        $arr = json_decode($response, TRUE);
+    
+        if (!($arr['success'])) {
+            $errors .= "No has fet el captcha <br>";
+        }
+    }
+    if (empty($dni)) {
+        $errors .= "El DNI és obligatori. <br>";
+    }
+
+    if (empty($password)) {
+        $errors .= "La contrasenya és obligatòria. <br>";
+    }
+
+    if (empty($errors)) {
+        unset($_SESSION['captcha']);
+        $timeout = 25 * 60;
+        $conn = connexion();
+        $sql = "SELECT Contraseña FROM usuaris WHERE DNI = '$dni'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (is_array($result) && array_key_exists('Contraseña', $result) && password_verify($password, $result['Contraseña'])) {
+            ini_set( "session.gc_maxlifetime", $timeout );
+            $_SESSION['dni'] = $dni;
+            header('location: ../index.php');
+        } else {
+            $errors .= "El DNI o la contrasenya introduïts no són correctes. <br>";
+        }
+    }
+    return $errors;
+}
