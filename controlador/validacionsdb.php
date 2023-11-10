@@ -57,4 +57,14 @@ function modifyPasswordByToken($token, $password) {
     }
 }
 
+function getdnibyEmail($email)
+{
+    include_once '../database/pdo.php';
+    $conn = connexion();
+    $sql = "SELECT DNI FROM usuaris WHERE Correu = '$email'";
+    $result = $conn->query($sql);
+    $numArticles = $result->fetchColumn();
+    return $numArticles;
+}
+
 ?>

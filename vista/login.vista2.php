@@ -18,7 +18,10 @@
             <input type="submit" name="submit" value="Enviar">
             
             <span style="color: red;"><?php if ($errors != "")echo $errors; ?></span>
-            
+            <div class="enlace">
+                <?php require('autentificacion.php') ?>
+                <a href="<?php echo $client->createAuthUrl() ?>">Iniciar sesión con Google</a>
+            </div>
             <p>No estàs registrat? <a href="../model/register.php">Registra't aquí</a>.</p>
             <p><a href="../vista/recuperar.vista.php">Has oblidat la teva contrasenya?</a>.</p>
             <p><a href="../index.php">Tornar</a>.</p>

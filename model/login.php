@@ -6,14 +6,15 @@
  * PHP version 7.4.16
  */
 
-session_start();
 $errors = "";
 
+session_start();
 if (!isset($_SESSION['captcha'])) {
     $_SESSION['captcha'] = 0;
 } else {
     $_SESSION['captcha'] = $_SESSION['captcha'] + 1;
 }
+
 
 if (!($_SESSION['captcha'] > 3)) {
     if (!isset($_SESSION['dni'])) {
@@ -24,6 +25,7 @@ if (!($_SESSION['captcha'] > 3)) {
             $errors .= login($dni, $password);
         }
     } else {
+        unset($_SESSION['captcha']);
         header('location: ../index.php');
     }
     include '../vista/login.vista.php';
@@ -36,6 +38,7 @@ if (!($_SESSION['captcha'] > 3)) {
             $errors .= login2($dni, $password);
         }
     } else {
+        unset($_SESSION['captcha']);
         header('location: ../index.php');
     }
     include '../vista/login.vista2.php';

@@ -20,6 +20,10 @@
             <input type="submit" value="Registrarse">
             <span style="color: red;"><?php if ($errors != "")echo $errors; ?></span>
             <p>Si ja tens un compte, <a href="../model/login.php">Inicia sessió</a>.</p>
+            <div class="enlace">
+                <?php require('regautentificacion.php') ?>
+                <a href="<?php echo $client->createAuthUrl() ?>">Registre't amb Google</a>
+            </div>
             <p><a href="../index.php">Tornar</a>.</p>
         </form>
     </div>
