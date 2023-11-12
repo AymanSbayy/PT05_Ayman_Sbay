@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2023 a las 18:16:53
+-- Tiempo de generación: 12-11-2023 a las 14:44:17
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -18,10 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `pt04_ayman_sbay`
+-- Base de datos: `pt05_ayman_sbay`
 --
-CREATE DATABASE IF NOT EXISTS `pt04_ayman_sbay` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `pt04_ayman_sbay`;
+CREATE DATABASE IF NOT EXISTS `pt05_ayman_sbay` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `pt05_ayman_sbay`;
 
 -- --------------------------------------------------------
 
@@ -48,6 +48,7 @@ INSERT INTO `articles` (`ID`, `art`, `Títol`, `user_dni`) VALUES
 (2, 'dkjjglkdjgkldsglksnfksklfsa', 'Hola', '39986307W'),
 (3, 'Pepe se esta cambiando', 'Pepe', '39986307W'),
 (4, 'hfgjfgjfgjgfjfgjf', 'gfjfghjfgj', '39986307W'),
+(5, 'PEPEPEPEEEEEEEEEEEEEEEEEEEEEEEEE', 'PEPEPEPEPEPEPE', '22222222Z'),
 (6, ',fnajsfnasdnfsdfsadfasdfasfd', 'Els Beneficis del Ioga', '39986307W'),
 (7, 'Descobreix les joies culturals i culinàries d\'aquesta ciutat espanyola.', 'Guia de Barcelona: Cultura i Gastronomia', NULL),
 (8, 'Consells pràctics per a una gestió financera efectiva.', 'Com Estalviar Dinero de Manera Inteligente', NULL),
@@ -72,7 +73,8 @@ INSERT INTO `articles` (`ID`, `art`, `Títol`, `user_dni`) VALUES
 (27, 'rwfasdffsfsad', 'wrqwrqwer', '39986307W'),
 (28, 'dfsdfsfsf', 'Article De Prova', '40960076C'),
 (29, 'adasdadasd', 'adasdsa', '22222222A'),
-(30, 'PEPEPEPEPEPEPPEPEPEPEPEPEPEPE', 'PEPEPEPEP', '44444444E');
+(30, 'PEPEPEPEPEPEPPEPEPEPEPEPEPEPE', 'PEPEPEPEP', '44444444E'),
+(31, 'mslñfsñlfmlsñdfmñlsd', 'lñsmflmsdfsdfm', '39986307Z');
 
 -- --------------------------------------------------------
 
@@ -86,6 +88,9 @@ CREATE TABLE IF NOT EXISTS `usuaris` (
   `Nom` varchar(25) NOT NULL,
   `Correu` varchar(100) NOT NULL,
   `Contraseña` varchar(255) NOT NULL,
+  `remember_me_token` text NOT NULL,
+  `social_provider` text NOT NULL,
+  `social_token` text NOT NULL,
   PRIMARY KEY (`DNI`),
   UNIQUE KEY `Correu` (`Correu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -94,13 +99,17 @@ CREATE TABLE IF NOT EXISTS `usuaris` (
 -- Volcado de datos para la tabla `usuaris`
 --
 
-INSERT INTO `usuaris` (`DNI`, `Nom`, `Correu`, `Contraseña`) VALUES
-('22222222A', 'lelele', 'lelele@gmail.com', '$2y$10$esdWJYSO/IsW5WDxYiXchedEUfNmF6ZWpME9vBWQ/1jYlnxmGqLlK'),
-('39986307W', 'Ayman', 'ayman.zekkari2@gmail.com', '$2y$10$XmcXHtzESfxn.IMlCsucR.54x9nVi9/Bd.4VtQOxGOZ0nSWaVceGC'),
-('40960076C', 'Abdel', 'a.sbay@institutsapalomera.cat', '$2y$10$P5Sqz8O.SMIUjjTQ8p74quOkLO/EnLVgSEQNdUPSaPrJ3bLioLwpu'),
-('44444444E', 'Pepe', 'pepee@gmail.com', '$2y$10$7rfKwxgTB13ebaV9UlRqOOlrpFUNM5y8lGqq6TED1zJGdWKA291SS'),
-('54810851B', 'Proba', 'proba@gmail.com', '$2y$10$kS16qoAHfezOrGxow5Y1uuM/XrG4bbTKSf3uTWlVtXbXX84TCTKam'),
-('62488789C', 'Kakakak', 'kakaka@gmail.com', '$2y$10$0glmlgqheT7sBDVF4fslf.bXfFZvuffuP7VK/jb4xU2o3ATsZp8A2');
+INSERT INTO `usuaris` (`DNI`, `Nom`, `Correu`, `Contraseña`, `remember_me_token`, `social_provider`, `social_token`) VALUES
+('22222222A', 'lelele', 'lelele@gmail.com', '$2y$10$esdWJYSO/IsW5WDxYiXchedEUfNmF6ZWpME9vBWQ/1jYlnxmGqLlK', '', '', ''),
+('22222222Z', 'Dina Sbay', 'dinaasbay@gmail.com', '$2y$10$nraXPTla.gljg1SfTXTH8OpfBaS76a/0uBCTawuuMxT51WpmxXRYy', '8da51f6c87b793bb9fbb994248db8decca6cbefb', '', ''),
+('39986307A', 'David', 'd.buesa@sapalomera.cat', '$2y$10$j.vD45ll5v8LIDSzxk2YR.xJS8HkjkotC56MFQzSWB9USot6nKrpy', '055db4ff150ed49db0d80c84d1111810356f8494', '', ''),
+('39986307W', 'Ayman', 'ayman.zekkari2@gmail.com', '$2y$10$XmcXHtzESfxn.IMlCsucR.54x9nVi9/Bd.4VtQOxGOZ0nSWaVceGC', '1c13d0d27f9048b412d26cee75e8cb6fd33f36ca', '', ''),
+('39986307Z', 'Ayman Sbay Zekkari', 'a.sbay@sapalomera.cat', '', '', '', '4/0AfJohXmzdJ6frVYmymbELC0FubfUaSvf-dsFPPo_MY4MwNka-KMqbrM9wsHT6vNK27hg5Q'),
+('40960076C', 'Abdel', 'a.sbay@institutsapalomera.cat', '$2y$10$P5Sqz8O.SMIUjjTQ8p74quOkLO/EnLVgSEQNdUPSaPrJ3bLioLwpu', '', '', ''),
+('44444444E', 'Pepe', 'pepee@gmail.com', '$2y$10$7rfKwxgTB13ebaV9UlRqOOlrpFUNM5y8lGqq6TED1zJGdWKA291SS', '', '', ''),
+('54810851B', 'Proba', 'proba@gmail.com', '$2y$10$kS16qoAHfezOrGxow5Y1uuM/XrG4bbTKSf3uTWlVtXbXX84TCTKam', '', '', ''),
+('54810851I', 'AymanSidi (AymanSidi)', 'ayman.zekkari@gmail.com', '', '', '', '4/0AfJohXmYRQM8o4pSBJI188s585ULUKv_wdLEIOx4hGcgtM369jADWt-OZeJBC3bpXOmhrw'),
+('62488789C', 'Kakakak', 'kakaka@gmail.com', '$2y$10$0glmlgqheT7sBDVF4fslf.bXfFZvuffuP7VK/jb4xU2o3ATsZp8A2', '', '', '');
 
 --
 -- Restricciones para tablas volcadas
