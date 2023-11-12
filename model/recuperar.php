@@ -7,6 +7,8 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
+$errors = "";
+
 if (!isset($_SESSION['dni'])) {
     if (isset($_POST['correo'])) {
         require_once '../controlador/validacionsdb.php';

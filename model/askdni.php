@@ -18,31 +18,39 @@ if (!isset($_SESSION['email']) && !isset($_SESSION['name'])) {
     $name2 = $_SESSION['name'];
 }
 
-
-
-
 $code =  $_SESSION['code'];
 
-if (isset($_POST['dni'])) {
-    require '../controlador/validacions.php';
-    $dni = $_POST['dni'];
-    if (empty($dni)) {
-        $errors .= "No has introduit el DNI <br>";
-    }
-    if (validar_dni2($dni)) {
-        $errors .= "El DNI no compleix els requisits <br>";
-    }
-    if (empty($errors)) {
-        require_once '../controlador/validacionsdb.php';
-        if (registerByCode($code, $dni, $_SESSION['email'], $_SESSION['name'])) {
-            unset($_SESSION['code']);
-            unset($_SESSION['email']);
-            unset($_SESSION['name']);
-            $_SESSION['dni'] = $dni;
-            echo "<script type='text/javascript'>alert('Usuari registrat correctament');</script>";
-            header('refresh:0.01; url=login.php');
-        } else {
-            $errors .= "No s'ha pogut registrar l'usuari";
+require "../controlador/validacionsdb.php";
+
+if (emailExists($email2)) {
+    $dni = getdnibyEmail($email);
+    $_SESSION['dni'] = $dni;
+    header('location: ../index.php');
+} else {
+    if (isset($_POST['dni'])) {
+        require '../controlador/validacions.php';
+        $dni = $_POST['dni'];
+        if (empty($dni)) {
+            $errors .= "No has introduit el DNI <br>";
+        }
+        if (validar_dni2($dni)) {
+            $errors .= "El DNI no compleix els requisits <br>";
+        }
+        if (dniExists($dni)) {
+            $errors .= "El DNI ja està registrat <br>";
+        }
+        if (empty($errors)) {
+            require_once '../controlador/validacionsdb.php';
+            if (registerByCode($code, $dni, $_SESSION['email'], $_SESSION['name'])) {
+                unset($_SESSION['code']);
+                unset($_SESSION['email']);
+                unset($_SESSION['name']);
+                $_SESSION['dni'] = $dni;
+                echo "<script type='text/javascript'>alert('Usuari registrat correctament');</script>";
+                header('refresh:0.01; url=login.php');
+            } else {
+                $errors .= "No s'ha pogut registrar l'usuari";
+            }
         }
     }
 }

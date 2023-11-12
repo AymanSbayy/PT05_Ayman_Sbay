@@ -67,4 +67,18 @@ function getdnibyEmail($email)
     return $numArticles;
 }
 
+function dniExists($dni)
+{
+    include_once '../database/pdo.php';
+    $conn = connexion();
+    $sql = "SELECT * FROM usuaris WHERE DNI = '$dni'";
+    $result = $conn->query($sql);
+    $numArticles = $result->fetchColumn();
+    if ($numArticles != "") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 ?>
