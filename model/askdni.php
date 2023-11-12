@@ -63,6 +63,9 @@ if (emailExists($email2)) {
                 unset($_SESSION['email']);
                 unset($_SESSION['name']);
                 $_SESSION['dni'] = $dni;
+                $name = getName($_SESSION['dni']);
+                $name = explode(' ', $name)[0];
+                $_SESSION['nombre'] = $name;
                 echo "<script type='text/javascript'>alert('Usuari registrat correctament');</script>";
                 header('refresh:0.01; url=login.php');
             } else {

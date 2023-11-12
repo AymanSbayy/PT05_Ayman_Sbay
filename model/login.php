@@ -44,12 +44,13 @@ if (!($_SESSION['captcha'] > 3)) {
         }
     } else {
         unset($_SESSION['captcha']);
+        $name = getName($_SESSION['dni']);
+        $name = explode(' ', $name)[0];
+        $_SESSION['nombre'] = $name;
         header('location: ../index.php');
     }
-    require '../controlador/validacionsdb.php';
-$name = getName($_SESSION['dni']);
-$name = explode(' ', $name)[0];
-$_SESSION['nombre'] = $name;
+    
+
 
     include '../vista/login.vista2.php';
 }
