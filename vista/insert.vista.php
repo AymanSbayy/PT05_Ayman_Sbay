@@ -6,6 +6,7 @@
 </head>
 <body>
     <ul class="ull">
+    <li class="liii"><a class="lia" href="index.php"><img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" height="25px" style="float: left; margin-right: 10px;"><?php echo $_SESSION['nombre']; ?></a></li>
     <li class="lii"><a class="lia" href="../model/closesess.php">Tencar sessió</a></li>
     </ul>
     <h1>Inserir</h1>

@@ -21,6 +21,8 @@ if (!isset($_SESSION['code'])) {
 $errors = "";
 
 require 'regautentificacion.php';
+require "../controlador/validacionsdb.php";
+require '../controlador/validacions.php';
 
 if (!isset($_SESSION['email']) && !isset($_SESSION['name'])) {
     $email2 = $email;
@@ -34,7 +36,7 @@ if (!isset($_SESSION['email']) && !isset($_SESSION['name'])) {
 
 $code =  $_SESSION['code'];
 
-require "../controlador/validacionsdb.php";
+
 
 if (emailExists($email2)) {
     $dni = getdnibyEmail($email);
@@ -45,7 +47,6 @@ if (emailExists($email2)) {
     header('location: ../index.php');
 } else {
     if (isset($_POST['dni'])) {
-        require '../controlador/validacions.php';
         $dni = $_POST['dni'];
         if (empty($dni)) {
             $errors .= "No has introduit el DNI <br>";
@@ -57,7 +58,6 @@ if (emailExists($email2)) {
             $errors .= "El DNI ja està registrat <br>";
         }
         if (empty($errors)) {
-            require_once '../controlador/validacionsdb.php';
             if (registerByCode($code, $dni, $_SESSION['email'], $_SESSION['name'])) {
                 unset($_SESSION['code']);
                 unset($_SESSION['email']);

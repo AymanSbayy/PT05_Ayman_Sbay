@@ -19,13 +19,14 @@ if (!isset($_SESSION['captcha'])) {
     $_SESSION['captcha'] = $_SESSION['captcha'] + 1;
 }
 
+
 require '../controlador/validacionsdb.php';
 if (!($_SESSION['captcha'] > 3)) {
     if (!isset($_SESSION['dni'])) {
         if (isset($_POST['dni']) && isset($_POST['password'])) {
             $dni = $_POST['dni'];
             $password = $_POST['password'];
-
+            
             $errors .= login($dni, $password);
         }
     } else {
@@ -45,6 +46,11 @@ if (!($_SESSION['captcha'] > 3)) {
         unset($_SESSION['captcha']);
         header('location: ../index.php');
     }
+    require '../controlador/validacionsdb.php';
+$name = getName($_SESSION['dni']);
+$name = explode(' ', $name)[0];
+$_SESSION['nombre'] = $name;
+
     include '../vista/login.vista2.php';
 }
 

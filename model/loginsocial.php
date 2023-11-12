@@ -60,6 +60,7 @@ else {
         }
         if (empty($errors)) {
             if (registerByCode($code, $dni, $_SESSION['email'], $_SESSION['name'])) {
+                require "../controlador/validacionsdb.php";
                 unset($_SESSION['code']);
                 unset($_SESSION['email']);
                 unset($_SESSION['name']);
