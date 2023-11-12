@@ -24,8 +24,5 @@ if (isset($_GET['confirm']) && $_GET['confirm'] == 'yes') {
         </script>";
 }
 
-echo "<script>alert('Sessió tancada correctament');</script>";
-
-header('refresh:0.01; url=../index.php');
 
 ?>

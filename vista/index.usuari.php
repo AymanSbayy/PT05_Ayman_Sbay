@@ -12,7 +12,7 @@
 
 <body>
 <ul class="ull">
-  <li class="liii"><a class="lia"><?php echo $_SESSION['dni']; ?></a></li>
+  <li class="liii"><a class="lia"><?php echo $_SESSION['nombre']; ?></a></li>
   <li class="lii"><a class="lia" href="model/closesess.php">Tencar sessió</a></li>
 </ul>
 

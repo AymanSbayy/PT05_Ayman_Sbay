@@ -49,6 +49,10 @@ else {
                 unset($_SESSION['email']);
                 unset($_SESSION['name']);
                 $_SESSION['dni'] = $dni;
+                require '../controlador/validacionsdb.php';
+                $nombre = getName($dni);
+                $nombre = explode(' ', $nombre)[0];
+                $_SESSION['nombre'] = $nombre;
                 echo "<script type='text/javascript'>alert('Usuari registrat correctament');</script>";
                 header('refresh:0.01; url=login.php');
             } else {

@@ -74,6 +74,10 @@ function login($dni, $password)
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (is_array($result) && array_key_exists('Contraseña', $result) && password_verify($password, $result['Contraseña'])) {
             $_SESSION['dni'] = $dni;
+            require '../controlador/validacionsdb.php';
+            $nombre = getName($dni);
+            $nombre = explode(' ', $nombre)[0];
+            $_SESSION['nombre'] = $nombre;
             header('location: ../index.php');
         } else {
             $errors .= "El DNI o la contrasenya introduïts no són correctes. <br>";
@@ -92,7 +96,7 @@ function login2($dni, $password)
         $secret = '6Lcgj-0oAAAAAP4_xNkbcRPW5w6Gifouj3lV0x_6';
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$captcha");
         $arr = json_decode($response, TRUE);
-    
+
         if (!($arr['success'])) {
             $errors .= "No has fet el captcha <br>";
         }
@@ -114,8 +118,12 @@ function login2($dni, $password)
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (is_array($result) && array_key_exists('Contraseña', $result) && password_verify($password, $result['Contraseña'])) {
-            ini_set( "session.gc_maxlifetime", $timeout );
+            ini_set("session.gc_maxlifetime", $timeout);
             $_SESSION['dni'] = $dni;
+            require '../controlador/validacionsdb.php';
+            $nombre = getName($dni);
+            $nombre = explode(' ', $nombre)[0];
+            $_SESSION['nombre'] = $nombre;
             header('location: ../index.php');
         } else {
             $errors .= "El DNI o la contrasenya introduïts no són correctes. <br>";

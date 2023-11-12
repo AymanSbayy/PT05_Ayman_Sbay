@@ -25,6 +25,10 @@ require "../controlador/validacionsdb.php";
 if (emailExists($email2)) {
     $dni = getdnibyEmail($email);
     $_SESSION['dni'] = $dni;
+    require '../controlador/validacionsdb.php';
+    $nombre = getName($dni);
+    $nombre = explode(' ', $nombre)[0];
+    $_SESSION['nombre'] = $nombre;
     header('location: ../index.php');
 } else {
     if (isset($_POST['dni'])) {

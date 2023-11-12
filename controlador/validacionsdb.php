@@ -30,8 +30,8 @@ function emailExists($email) {
     $conn = connexion();
     $sql = "SELECT * FROM usuaris WHERE Correu = '$email'";
     $result = $conn->query($sql);
-    $numArticles = $result->fetchColumn();
-    if ($numArticles != "") {
+    $email2 = $result->fetchColumn();
+    if ($email2 != "") {
         return true;
     } else {
         return false;
@@ -63,8 +63,8 @@ function getdnibyEmail($email)
     $conn = connexion();
     $sql = "SELECT DNI FROM usuaris WHERE Correu = '$email'";
     $result = $conn->query($sql);
-    $numArticles = $result->fetchColumn();
-    return $numArticles;
+    $dni = $result->fetchColumn();
+    return $dni;
 }
 
 function dniExists($dni)
@@ -73,12 +73,22 @@ function dniExists($dni)
     $conn = connexion();
     $sql = "SELECT * FROM usuaris WHERE DNI = '$dni'";
     $result = $conn->query($sql);
-    $numArticles = $result->fetchColumn();
-    if ($numArticles != "") {
+    $dni2 = $result->fetchColumn();
+    if ($dni2 != "") {
         return true;
     } else {
         return false;
     }
+}
+
+function getName($dni)
+{
+    include_once '../database/pdo.php';
+    $conn = connexion();
+    $sql = "SELECT Nom FROM usuaris WHERE DNI = '$dni'";
+    $result = $conn->query($sql);
+    $nom = $result->fetchColumn();
+    return $nom;
 }
 
 ?>
