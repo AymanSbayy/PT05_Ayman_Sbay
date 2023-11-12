@@ -1,4 +1,17 @@
 <?php 
+/**
+ * Fitxer que permet recuperar la contrasenya d'un usuari a través del correu electrònic.
+ *
+ * Aquest fitxer conté les funcions necessàries per enviar un correu electrònic amb un enllaç per restablir la contrasenya,
+ * així com per actualitzar la base de dades amb el token temporal generat per a l'usuari.
+ *
+ * PHP version 7.4.9
+ *
+ * @category   Model
+ * @package    PT06_Ayman_Sbay
+ * @subpackage Recuperar
+ * @license    https://www.gnu.org/licenses/gpl-3.0.en.html GPL
+ */
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -34,6 +47,17 @@ if (!isset($_SESSION['dni'])) {
 
 }
 
+/**
+ * Funció que actualitza la base de dades amb el token temporal generat per a l'usuari.
+ *
+ * Aquesta funció rep el correu electrònic de l'usuari i el token temporal generat per a ell,
+ * i actualitza la base de dades amb aquesta informació.
+ *
+ * @param string $correo Correu electrònic de l'usuari.
+ * @param string $token  Token temporal generat per a l'usuari.
+ *
+ * @return void
+ */
 function insertTokenintoBD($correo,$token)
 {
     //Inserta el token a en el usuario a partir del correo
@@ -47,6 +71,17 @@ function insertTokenintoBD($correo,$token)
     $conn = null;
 }
 
+/**
+ * Funció que envia un correu electrònic amb un enllaç per restablir la contrasenya.
+ *
+ * Aquesta funció rep el correu electrònic de l'usuari i el token temporal generat per a ell,
+ * i envia un correu electrònic amb un enllaç per restablir la contrasenya.
+ *
+ * @param string $email Correu electrònic de l'usuari.
+ * @param string $token Token temporal generat per a l'usuari.
+ *
+ * @return void
+ */
 function sendMail($email, $token)
 {
     $mail = new PHPMailer(true);
@@ -71,13 +106,13 @@ function sendMail($email, $token)
         $mail->Subject = 'Contraseña';
         // Construir el cuerpo del correo
         $text = "Hola,<br><br>";
-        $text .= "Hemos recibido una solicitud para restablecer la contraseña de tu cuenta. Si no has solicitado este cambio, puedes ignorar este correo electrónico.<br><br>";
-        $text .= "Para restablecer tu contraseña, haz clic en el siguiente enlace:<br>";
-        $text .= "<a href='localhost/Backend/UF1/PT06_Ayman_Sbay/model/novacontra.php?token=" . $token . "'>Restablecer contraseña</a><br><br>";
-        $text .= "Si el enlace no funciona, copia y pega la siguiente dirección en tu navegador:<br>";
+        $text .= "Hem rebut una sol·licitud per restablir la contrasenya del teu compte. Si no has sol·licitat aquest canvi, pots ignorar aquest correu electrònic.<br><br>";
+        $text .= "Per restablir la teva contrasenya, fes clic en el següent enllaç:<br>";
+        $text .= "<a href='localhost/Backend/UF1/PT06_Ayman_Sbay/model/novacontra.php?token=" . $token . "'>Restablir contrasenya</a><br><br>";
+        $text .= "Si l'enllaç no funciona, copia i enganxa la següent adreça al teu navegador:<br>";
         $text .= "http://localhost/Backend/UF1/PT06_Ayman_Sbay/model/novacontra.php?token=" . $token . "<br><br>";
-        $text .= "Gracias,<br>";
-        $text .= "El equipo de Ayman Sbay";
+        $text .= "Gràcies,<br>";
+        $text .= "Ayman Sbay";
 
         $mail->Body = $text;
 
@@ -88,6 +123,13 @@ function sendMail($email, $token)
     }
 }
 
+/**
+ * Funció que genera un token temporal per a l'usuari.
+ *
+ * Aquesta funció genera un token temporal per a l'usuari a partir de bytes aleatoris.
+ *
+ * @return string
+ */
 function temporaryTokenPass()
 {
     $token = bin2hex(random_bytes(20));

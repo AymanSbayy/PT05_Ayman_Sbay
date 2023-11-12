@@ -1,5 +1,19 @@
 <?php
+
+/**
+ * FILEPATH: /c:/xampp/htdocs/Backend/UF1/PT06_Ayman_Sbay/model/askdni.php
+ * 
+ * Aquest fitxer gestiona el procés de registre per als usuaris que s'inscriuen amb el seu DNI.
+ * 
+ * Versió de PHP 7.4.9
+ * 
+ * @category Registre
+ * @package  Model
+ */
+
+
 session_start();
+
 if (!isset($_SESSION['code'])) {
     $_SESSION['code'] = $_GET['code'];
 }
@@ -25,7 +39,6 @@ require "../controlador/validacionsdb.php";
 if (emailExists($email2)) {
     $dni = getdnibyEmail($email);
     $_SESSION['dni'] = $dni;
-    require '../controlador/validacionsdb.php';
     $nombre = getName($dni);
     $nombre = explode(' ', $nombre)[0];
     $_SESSION['nombre'] = $nombre;
@@ -59,6 +72,16 @@ if (emailExists($email2)) {
     }
 }
 
+/**
+ * Registra un usuari amb el codi, DNI, correu electrònic i nom proporcionats.
+ * 
+ * @param string $code  El codi de token social.
+ * @param string $dni   El DNI de l'usuari.
+ * @param string $email El correu electrònic de l'usuari.
+ * @param string $name  El nom de l'usuari.
+ * 
+ * @return bool Retorna true si l'usuari s'ha registrat correctament, false en cas contrari.
+ */
 function registerByCode($code, $dni, $email, $name)
 {
 
@@ -72,3 +95,5 @@ function registerByCode($code, $dni, $email, $name)
 }
 
 include '../vista/iserdni.php';
+
+?>

@@ -1,13 +1,17 @@
 <?php
-
 /**
- * Archivo: /c:/xampp/htdocs/Backend/UF1/PT05_Ayman_Sbay/model/login.php
- * Descripción: Este archivo contiene la función de inicio de sesión y la lógica para manejar el inicio de sesión.
- * PHP version 7.4.16
+ * Fitxer: /c:/xampp/htdocs/Backend/UF1/PT06_Ayman_Sbay/model/login.php
+ * Descripció: Aquest fitxer conté la funció d'inici de sessió i la lògica per gestionar l'inici de sessió.
+ * Versió de PHP: 7.4.16
  */
 
 $errors = "";
 
+/**
+ * Inicia la sessió i comprova si s'ha superat el límit de captcha. Si no s'ha superat, comprova si l'usuari ha iniciat sessió. Si no, comprova si s'ha enviat el formulari d'inici de sessió 
+ * i crida la funció login() per validar les credencials. Si s'ha superat el límit de captcha, comprova si l'usuari ha iniciat sessió. Si no, comprova si s'ha enviat el formulari d'inici de 
+ * sessió i crida la funció login2() per validar les credencials i el captcha.
+ */
 session_start();
 if (!isset($_SESSION['captcha'])) {
     $_SESSION['captcha'] = 0;
@@ -15,7 +19,7 @@ if (!isset($_SESSION['captcha'])) {
     $_SESSION['captcha'] = $_SESSION['captcha'] + 1;
 }
 
-
+require '../controlador/validacionsdb.php';
 if (!($_SESSION['captcha'] > 3)) {
     if (!isset($_SESSION['dni'])) {
         if (isset($_POST['dni']) && isset($_POST['password'])) {
@@ -44,14 +48,13 @@ if (!($_SESSION['captcha'] > 3)) {
     include '../vista/login.vista2.php';
 }
 
-
 /**
- * Función para manejar el inicio de sesión.
+ * Funció per validar les credencials de l'usuari i iniciar sessió si són correctes.
  *
- * @param string $dni      El DNI del usuario.
- * @param string $password La contraseña del usuario.
+ * @param string $dni      El DNI de l'usuari.
+ * @param string $password La contrasenya de l'usuari.
  *
- * @return string          Devuelve una cadena de errores si los hay.
+ * @return string          Retorna una cadena amb els errors si n'hi ha.
  */
 function login($dni, $password)
 {
@@ -74,7 +77,7 @@ function login($dni, $password)
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (is_array($result) && array_key_exists('Contraseña', $result) && password_verify($password, $result['Contraseña'])) {
             $_SESSION['dni'] = $dni;
-            require '../controlador/validacionsdb.php';
+            
             $nombre = getName($dni);
             $nombre = explode(' ', $nombre)[0];
             $_SESSION['nombre'] = $nombre;
@@ -86,7 +89,14 @@ function login($dni, $password)
     return $errors;
 }
 
-
+/**
+ * Funció per validar les credencials de l'usuari i el captcha i iniciar sessió si són correctes.
+ *
+ * @param string $dni      El DNI de l'usuari.
+ * @param string $password La contrasenya de l'usuari.
+ *
+ * @return string          Retorna una cadena amb els errors si n'hi ha.
+ */
 function login2($dni, $password)
 {
     require_once "../database/pdo.php";
@@ -120,7 +130,7 @@ function login2($dni, $password)
         if (is_array($result) && array_key_exists('Contraseña', $result) && password_verify($password, $result['Contraseña'])) {
             ini_set("session.gc_maxlifetime", $timeout);
             $_SESSION['dni'] = $dni;
-            require '../controlador/validacionsdb.php';
+
             $nombre = getName($dni);
             $nombre = explode(' ', $nombre)[0];
             $_SESSION['nombre'] = $nombre;

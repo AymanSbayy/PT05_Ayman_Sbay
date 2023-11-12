@@ -6,13 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Estils/estils.css">
+	
 	<title>Paginació</title>
 </head>
 
 
 <body>
 <ul class="ull">
-  <li class="liii"><a class="lia"><?php echo $_SESSION['nombre']; ?></a></li>
+<li class="liii"><a class="lia" href="index.php"><img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" height="25px" style="float: left; margin-right: 10px;"><?php echo $_SESSION['nombre']; ?></a></li>
   <li class="lii"><a class="lia" href="model/closesess.php">Tencar sessió</a></li>
 </ul>
 

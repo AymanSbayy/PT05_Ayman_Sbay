@@ -25,8 +25,8 @@ $errors = "";
  */
 function validateInput($dni, $username, $email, $password, $confirm_password) {
     $errors = "";
-    require_once "../controlador/validacions.php";
-    require_once "../controlador/validacionsdb.php";
+    require "../controlador/validacions.php";
+    require "../controlador/validacionsdb.php";
 
     if (validar_dni2($dni)) {
         $errors .= "El DNI introduït no és vàlid. <br>";

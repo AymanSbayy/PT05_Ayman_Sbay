@@ -1,4 +1,17 @@
 <?php 
+/**
+ * Fitxer que permet modificar la contrasenya d'un usuari a través d'un token.
+ *
+ * Aquest fitxer conté el codi necessari per validar les dades rebudes del formulari de modificació de contrasenya,
+ * modificar la contrasenya de l'usuari a la base de dades i redirigir a l'usuari a la pàgina de login.
+ *
+ * PHP version 7.4.9
+ *
+ * @category Fitxer_de_Modificació_de_Contrasenya
+ * @package  Nova_Contra
+ * @author   Ayman
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 session_set_cookie_params(300);
 session_start();
 if (!isset($_SESSION['token'])) {
